@@ -1,13 +1,27 @@
 package burger_shop;
 
-public class Meat {
-    private String name;
+import java.util.ArrayList;
 
-    public Meat(String name) {
-        this.name = name;
+public class Meat {
+    private ArrayList<String> meatTypes;
+
+    public Meat() {
+        meatTypes = new ArrayList<>();
+
+        meatTypes.add("Ground Beef");
+        meatTypes.add("Ground Turkey");
+        meatTypes.add("Steak");
+        meatTypes.add("Black Bean");
+        meatTypes.add("Impossible");
+        meatTypes.add("Chicken");
+
     }
 
-    public String getName() {
-        return name;
+    public ArrayList<String> getAllMeat() {
+        return meatTypes;
+    }
+
+    public String getmeat(int index) {
+        return meatTypes.get(index);
     }
 }

@@ -5,93 +5,83 @@ import java.util.*;
 public class Burger {
     private String name;
 
-    private Meat meat;
+    private String meat;
 
     private double price;
 
     private String bread;
 
-    private String topping1Name;
+    private ArrayList<String> toppingList;
 
-    private double topping1Price;
+    private int toppingsCounter = 0;
 
-    private String topping2Name;
-
-    private double topping2Price;
-
-    private String topping3Name;
-
-    private double topping3Price;
-
-    private String topping4Name;
-
-    private double topping4Price;
-
-    public Burger(String name, Meat meat, double price, String bread) {
+    public Burger(String name, String meat, double price, String bread) {
         this.name = name;
-        this.meat = meat;
         this.price = price;
         this.bread = bread;
+        this.meat = meat;
+
+        toppingList = new ArrayList<>();
     }
 
-    public void addburgerTopping1(String name, double price) {
-        this.topping1Name = name;
-        this.topping1Price = price;
+    public Burger() {
+
     }
 
-    public void addburgerTopping2(String name, double price) {
-        this.topping2Name = name;
-        this.topping2Price = price;
-    }
-
-    public void addburgerTopping3(String name, double price) {
-        this.topping3Name = name;
-        this.topping3Price = price;
-    }
-
-    public void addburgerTopping4(String name, double price) {
-        this.topping4Name = name;
-        this.topping4Price = price;
-    }
-
-    public double plainBurgerPrice() {
-        System.out.println("Wow you're no fun! Oh well... The price of a plain " + this.meat + " burger on "
-                + this.bread + " bread is " + this.price);
-        return this.price;
+    public static double burgerPrice() {
+        return 4.50;
     }
 
     public double totalBurgerPrice() {
-        double burgerPrice = this.price;
-        System.out.println(this.name + " burger " + "with " + this.meat + " on " + this.bread + " bread " + "costs "
-                + this.price + ".");
-        if (this.name != "Plain" && this.topping1Name != null) {
-            burgerPrice += this.topping1Price;
-            System.out.println(this.topping1Name + " has been added at an additional cost of " + this.topping1Price);
-        } else if (this.name == "Plain" && this.topping1Name != null) {
-            System.out.println("Are you crazy?! You can't ask for a plain burger and then try to add toppings!");
-        } else if (this.name.contains("Plain")) {
-            return plainBurgerPrice();
-        }
-        if (this.name != "Plain" && this.topping2Name != null) {
-            burgerPrice += this.topping2Price;
-            System.out.println(this.topping2Name + " has been added at an additional cost of " + this.topping2Price);
-        } else if (this.topping2Name != null) {
-            System.out.println("Are you crazy?! You can't ask for a plain burger and then try to add toppings!");
-        }
-        if (this.name != "Plain" && this.topping3Name != null) {
-            burgerPrice += this.topping3Price;
-            System.out.println(this.topping3Name + " has been added at an additional cost of " + this.topping3Price);
-        } else if (this.topping3Name != null) {
-            System.out.println("Are you crazy?! You can't ask for a plain burger and then try to add toppings!");
-        }
-        if (this.name != "Plain" && this.topping4Name != null) {
-            burgerPrice += this.topping4Price;
-            System.out.println(this.topping4Name + " has been added at an additional cost of " + this.topping4Price);
-        } else if (this.topping4Name != null) {
-            System.out.println("Are you crazy?! You can't ask for a plain burger and then try to add toppings!");
-        }
-
-        return burgerPrice;
-
+        price += toppingsCounter * 0.50;
+        return price;
     }
+
+    public void addToppings(Toppings t, int index) {
+        try {
+            if (toppingsCounter < 2) {
+
+                if (!checkToppings(toppingList, t.getTopping(index))) {
+                    toppingList.add(t.getTopping(index));
+                    toppingsCounter++;
+                } else {
+                    System.out.println("Topping already added! You can't add more than one!");
+                }
+            } else {
+                System.out.println("Cannot add more than 2 toppings.");
+            }
+        } catch (IndexOutOfBoundsException b) {
+            System.out.println("Invalid topping option.");
+            for (String s : t.getAllToppings()) {
+                System.out.println(s);
+            }
+        }
+    }
+
+    private boolean checkToppings(ArrayList<String> list, String item) {
+
+        for (String s : list) {
+            if (s.equals(item)) {
+                return true;
+            }
+
+        }
+
+        return false;
+    }
+
+    @Override
+    public String toString() {
+        String burger;
+
+        burger = "{Burger: " + name + ", meat: " + meat + ", price: " + price + ", bread: " + bread + ", toppings: ";
+        for (String s : toppingList) {
+            burger += s;
+            burger += ", ";
+        }
+
+        burger += "}";
+        return burger;
+    }
+
 }
